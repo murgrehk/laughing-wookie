@@ -2,23 +2,23 @@ import socket
 import _thread
 import TCP_Client
 
-host = ''
-port = 0
-max_connections = 1
-quit_string = TCP_Client.quit_string
+HOST = ''
+PORT = 5005
+MAX_CONNECTIONS = 1
+QUIT_STRING = TCP_Client.QUIT_STRING
 
 class Server(object):
-    def __init__(self,host='127.0.0.1',port=5000,max_connections=5):
-        self.host = host
-        self.port = port
-        self.max_connections = max_connections
+    def __init__(self,HOST='127.0.0.1',PORT=5005,MAX_CONNECTIONS=2):
+        self.HOST = HOST
+        self.PORT = PORT
+        self.MAX_CONNECTIONS = MAX_CONNECTIONS
         self.text = ''
-        self.socket = socket.socket()
+        self.socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         try:
-            self.socket.bind((self.host, self.port))
+            self.socket.bind(('', self.PORT))
         except socket.error as e:
             print(str(e))
-        self.socket.listen(self.max_connections)
+        self.socket.listen(self.MAX_CONNECTIONS)
         self.connections = []
 
     def threaded_client(self,connection,buffer_size=1024):
@@ -62,7 +62,7 @@ class Server(object):
     def handler(client_socket, addr, buffer_size=1024):
         while True:
             data = client_socket.recv(buffer_size).decode('UTF-8')
-            if data is not quit_string:
+            if data is not QUIT_STRING:
                 print('received: {}'.format(data))
                 if not data:
                     break

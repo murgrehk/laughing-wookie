@@ -2,12 +2,12 @@ import socket
 import _thread
 import threading
 
-prelude = "-> "
-quit_string = 'q'
+PRELUDE = "-> "
+QUIT_STRING = 'q'
 
 
 class Client(object):
-    def __init__(self,name,host='127.0.0.1',port=5000,buffer_size=1024):
+    def __init__(self,name,host='127.0.0.1',port=5005,buffer_size=1024):
         self.host = host
         self.port = port
         self.name = name
@@ -44,10 +44,10 @@ class Client(object):
 
     def run_client(self):
         while True:
-            message = input(prelude)
+            message = input(PRELUDE)
             if not message:
                 continue
-            if message is not quit_string:
+            if message is not QUIT_STRING:
                 self.send_data(message)
                 self.receive_data()
                 print("Received from server: {}".format(str(self.text)))
@@ -65,7 +65,7 @@ def main():
     while True:
         if not client.run_client():
             break
-    s.close()
+    client.close_socket()
 
 if __name__ == '__main__':
     main()

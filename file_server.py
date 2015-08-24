@@ -3,9 +3,9 @@ import threading
 import os
 
 host = '127.0.0.1'
-port = 5000
+port = 5002
 
-def setup(host='127.0.0.1',port=5000):
+def setup(host='127.0.0.1',port=5002):
     host = host
     port = port
 
@@ -32,7 +32,7 @@ def main():
 	setup()
 
 	s = socket.socket()
-	s.bind((host,port))
+	s.bind(('',port))
 
 	s.listen(5)
 	print("File server started.....")
